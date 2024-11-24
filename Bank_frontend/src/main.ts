@@ -1,15 +1,6 @@
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideRouter, Routes } from '@angular/router';
+import { appConfig } from './app/app.config';
 import { AppComponent } from './app/app.component';
-import { CardDataEnteringComponent } from './app/card-data-entering/card-data-entering/card-data-entering.component';
 
-const routes: Routes = [
-  { path: '', component: CardDataEnteringComponent }, // Početna ruta
-  { path: '**', redirectTo: '' }, // Redirekcija za nepostojeće rute
-];
-
-bootstrapApplication(AppComponent, {
-  providers: [
-    provideRouter(routes),
-  ],
-}).catch(err => console.error(err));
+bootstrapApplication(AppComponent, appConfig)
+  .catch((err) => console.error(err));

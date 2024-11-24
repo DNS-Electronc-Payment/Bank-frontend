@@ -3,11 +3,12 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CardDataServiceService } from '../../service/card-data-service.service';
 import { BankAccount } from '../../model/bank-account.model';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-card-data-entering',
   standalone: true, 
-  imports: [CommonModule, ReactiveFormsModule], 
+  imports: [CommonModule, ReactiveFormsModule,HttpClientModule], 
   templateUrl: './card-data-entering.component.html',
   styleUrls: ['./card-data-entering.component.css']
 })
