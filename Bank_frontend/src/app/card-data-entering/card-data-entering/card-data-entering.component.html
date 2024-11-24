@@ -1,0 +1,38 @@
+<div class="card-form-container">
+    <form [formGroup]="cardForm" (ngSubmit)="onSubmit()">
+      <div>
+        <label for="cardHolderName">Card Holder Name:</label>
+        <input id="cardHolderName" formControlName="cardHolderName" type="text" />
+        <div *ngIf="cardForm.get('cardHolderName')?.invalid && cardForm.get('cardHolderName')?.touched">
+          <small>Card Holder Name is required</small>
+        </div>
+      </div>
+  
+      <div>
+        <label for="cardPAN">Card PAN:</label>
+        <input id="cardPAN" formControlName="cardPAN" type="text" />
+        <div *ngIf="cardForm.get('cardPAN')?.invalid && cardForm.get('cardPAN')?.touched">
+          <small>Card PAN is required and must be 16 digits</small>
+        </div>
+      </div>
+  
+      <div>
+        <label for="cardCVC">Card CVC:</label>
+        <input id="cardCVC" formControlName="cardCVC" type="number" />
+        <div *ngIf="cardForm.get('cardCVC')?.invalid && cardForm.get('cardCVC')?.touched">
+          <small>Card CVC is required and must be 3 digits</small>
+        </div>
+      </div>
+  
+      <div>
+        <label for="cardDueDate">Card Due Date:</label>
+        <input id="cardDueDate" formControlName="cardDueDate" type="date" />
+        <div *ngIf="cardForm.get('cardDueDate')?.invalid && cardForm.get('cardDueDate')?.touched">
+          <small>Card Due Date is required</small>
+        </div>
+      </div>
+  
+      <button type="submit" [disabled]="cardForm.invalid">Submit</button>
+    </form>
+  </div>
+  
