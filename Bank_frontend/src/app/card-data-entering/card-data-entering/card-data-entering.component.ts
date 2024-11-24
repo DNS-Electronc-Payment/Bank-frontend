@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CardDataServiceService } from '../../service/card-data-service.service';
 import { BankAccount } from '../../model/bank-account.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-card-data-entering',
-  standalone: false,
+  standalone: true, 
+  imports: [CommonModule, ReactiveFormsModule], 
   templateUrl: './card-data-entering.component.html',
   styleUrls: ['./card-data-entering.component.css']
 })
@@ -16,6 +18,8 @@ export class CardDataEnteringComponent implements OnInit {
   constructor(private fb: FormBuilder, private cardDataService: CardDataServiceService) {}
 
   ngOnInit(): void {
+    console.log('CardDataEnteringComponent is initialized');
+    
     this.cardForm = this.fb.group({
       cardHolderName: ['', [Validators.required]],
       cardPAN: ['', [Validators.required, Validators.pattern(/^\d{16}$/)]], // Validacija za 16 brojeva
