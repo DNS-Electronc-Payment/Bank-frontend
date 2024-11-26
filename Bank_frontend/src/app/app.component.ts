@@ -1,27 +1,20 @@
 import { Component } from '@angular/core';
-import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { Router, RouterOutlet } from '@angular/router';
+
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { CardDataEnteringComponent } from './card-data-entering/card-data-entering/card-data-entering.component';
-
-
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet,
     HttpClientModule,
-    CardDataEnteringComponent,
-    
-  ], // Importuj RouterOutlet
-  providers: [
-  
-
-  ],
+    CardDataEnteringComponent,],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title='Bank_frontend'
-
+  title = 'Bank_frontend';
+  
   private webSocket!: WebSocket;
   private webSocketClient!: WebSocket;
   private webSocketResponse!: WebSocket;
@@ -31,11 +24,12 @@ export class AppComponent {
   }
 
   initializeWebSockets(){
-    this.setupWebSocket("responses")
+    this.setupWebSocket("form")
+    
   }
 
   private setupWebSocket(endpoint: string) {
-    const url = `ws://localhost:8082/${endpoint}`;
+    const url = `wss://localhost:8082/${endpoint}`;
     const webSocket = new WebSocket(url);
 
     webSocket.onopen = () => {
@@ -44,7 +38,7 @@ export class AppComponent {
 
     webSocket.onclose = (event) => {
       console.log(`WebSocket connection to ${endpoint} closed. Reconnecting...`);
-      setTimeout(() => this.setupWebSocket(endpoint), 1000); // Ponovni pokušaj nakon 5 sekundi
+      setTimeout(() => this.setupWebSocket(endpoint), 1000); // Ponovni pokušaj nakon 1 sekundi
     };
 
     webSocket.onerror = (error) => {
@@ -55,24 +49,30 @@ export class AppComponent {
     webSocket.onmessage = (event) => {
       console.log(`Message from ${endpoint}:`, event.data);
       // Obradi poruku na osnovu endpoint-a
-      if (endpoint === 'responses') {
-        this.handleTransactionMessage(event);
-      }
+        this.handleSuccess(event);
+      
     };
 
     // Sačuvaj referencu na WebSocket
-    if (endpoint === 'transactions') {
+    if (endpoint === 'form') {
       this.webSocket = webSocket;
-    } else if (endpoint === 'clients') {
-      this.webSocketClient = webSocket;
-    } else if (endpoint === 'responses') {
-      this.webSocketResponse = webSocket;
-    }
+    } 
   }
 
-  private handleTransactionMessage(event: MessageEvent) {
+ 
+  private handleSuccess(event: MessageEvent) {
     console.log(event.data);
+    console.log("FORMAAAAAAAAAAAAAA")
     this.router.navigate(['/form']);
-   
+  }
+
+  private handleError(event: MessageEvent) {
+    console.log(event.data);
+    this.router.navigate(['/error']);
+  }
+
+  private handleFailed(event: MessageEvent) {
+    console.log(event.data);
+    this.router.navigate(['/failed']);
   }
 }
