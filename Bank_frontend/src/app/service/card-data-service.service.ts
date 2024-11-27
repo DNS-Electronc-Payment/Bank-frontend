@@ -12,6 +12,6 @@ export class CardDataServiceService {
   constructor(private http: HttpClient) {}
 
   processCardData(accountDto: BankAccount): Observable<void> {
-    return this.http.post<void>(`${environment.apiHost}/bankAccount/process-card-data`, accountDto);
+    return this.http.post<void>(`${environment.apiHost}bankAccount/process-card-data`, accountDto);
   }
 }
